@@ -49,9 +49,7 @@ impl<'a> MetaField<'a> {
 /// Generic metadata trait for different replays.
 pub trait Meta {
     /// Fetch all fields in a metadata object.
-    fn fields(&self) -> HashMap<String, MetaField<'_>>
-    where
-        Self: Sized;
+    fn fields(&self) -> HashMap<String, MetaField<'_>>;
 
     /// Create a metadata object from fields.
     fn from_fields(fields: HashMap<String, MetaField<'_>>) -> Self

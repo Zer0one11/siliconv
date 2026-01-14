@@ -10,3 +10,4 @@ workspace = true
 siliconv_core = { path = "../siliconv_core" }
 siliconv_macros = { path = "../siliconv_macros" }
 slc_oxide = "0.2.0"
+tracing = { version = "0.1.44", features = ["log"] }
