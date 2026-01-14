@@ -1,0 +1,14 @@
+[package]
+name = "siliconv_cli"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+clap = { version = "4.5.54", features = ["derive"] }
+siliconv_core = { path = "../siliconv_core/" }
+siliconv_formats = { path = "../siliconv_formats/" }
+tracing = { version = "0.1.44", features = ["log"] }
+tracing-subscriber = "0.3.22"
+
+[lints]
+workspace = true
