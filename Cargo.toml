@@ -1,31 +1,24 @@
 [workspace]
-members = [
-    "crates/siliconv_cli",
-    "crates/siliconv_core", 
-    "crates/siliconv_formats", 
-    "crates/siliconv_macros"
-]
+members = ["crates/*"]
 
 [workspace.package]
 version = "0.1.0"
 edition = "2024"
-
-[workspace.lints.rust]
-missing_docs = "deny"
-
-[workspace.lints.clippy]
-pedantic = "deny"
-
-[profile.release]
-# Оптимизация для веба: уменьшаем размер .wasm файла
-opt-level = "z"
-lto = true
-codegen-units = 1
 
 [package]
 name = "siliconv"
 version.workspace = true
 edition.workspace = true
 
+[lib]
+crate-type = ["cdylib"] # Для WASM
+
 [dependencies]
 siliconv_core = { path = "crates/siliconv_core" }
+siliconv_formats = { path = "crates/siliconv_formats" }
+wasm-bindgen = "0.2.92"
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
