@@ -5,13 +5,20 @@ members = ["crates/*"]
 version = "0.1.0"
 edition = "2024"
 
+# Добавляем это, чтобы исправить ошибку:
+[workspace.lints.rust]
+missing_docs = "deny"
+
+[workspace.lints.clippy]
+pedantic = "deny"
+
 [package]
 name = "siliconv"
 version.workspace = true
 edition.workspace = true
 
 [lib]
-crate-type = ["cdylib"] # Для WASM
+crate-type = ["cdylib"]
 
 [dependencies]
 siliconv_core = { path = "crates/siliconv_core" }
