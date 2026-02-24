@@ -3,10 +3,16 @@ name = "siliconv_core"
 version.workspace = true
 edition.workspace = true
 
-[lints]
-workspace = true
+[lib]
+# Это критически важно для создания WebAssembly модуля
+crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-thiserror = "2.0.17"
-tracing = { version = "0.1.44", features = ["log"] }
+thiserror = "2.0.11"
+# Добавляем зависимости для веба
+wasm-bindgen = "0.2.92"
+serde = { version = "1.0", features = ["derive"] }
+serde-wasm-bindgen = "0.6.5"
 
+[lints]
+workspace = true
