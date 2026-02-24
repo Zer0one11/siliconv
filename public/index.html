@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Siliconv Web Converter</title>
+    <style>
+        body { font-family: sans-serif; background: #121212; color: #e0e0e0; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
+        .container { background: #1e1e1e; padding: 2rem; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.5); text-align: center; width: 90%; max-width: 500px; }
+        h1 { color: #00e676; margin-bottom: 0.5rem; }
+        #drop-zone { border: 2px dashed #444; padding: 40px; border-radius: 8px; cursor: pointer; transition: 0.3s; margin: 20px 0; }
+        #drop-zone:hover { border-color: #00e676; background: #252525; }
+        #status { margin-top: 15px; font-size: 0.9rem; white-space: pre-wrap; }
+        .btn { background: #00e676; color: #000; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 10px; }
+        .btn:disabled { background: #444; cursor: not-allowed; }
+        select { background: #333; color: white; border: 1px solid #444; padding: 8px; border-radius: 4px; margin-bottom: 10px; width: 100%; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Siliconv</h1>
+    <p>Конвертер реплеев Geometry Dash</p>
+
+    <div id="drop-zone">Нажми или перетащи файл реплея (.slc)</div>
+    <input type="file" id="file-input" style="display: none">
+
+    <label for="format-select">Целевой формат:</label>
+    <select id="format-select">
+        <option value="slc">Silicate (.slc)</option>
+        </select>
+
+    <div id="status">Ожидание загрузки модуля...</div>
+</div>
+
+<script type="module">
+    // Импортируем наш скомпилированный Rust (Vercel положит его сюда)
+    import init, { process_replay_data } from './pkg/siliconv_core.js';
+
+    const dropZone = document.getElementById('drop-zone');
+    const fileInput = document.getElementById('file-input');
+    const status = document.getElementById('status');
+
+    async function run() {
+        try {
+            // Инициализируем WASM
+            await init();
+            status.innerText = "Готов к работе! Загрузите файл.";
+        } catch (e) {
+            status.innerText = "Ошибка инициализации: " + e;
+        }
+    }
+
+    // Обработка клика по зоне
+    dropZone.onclick = () => fileInput.click();
+
+    // Обработка выбора файла
+    fileInput.onchange = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        status.innerText = "Обработка...";
+        
+        const reader = new FileReader();
+        reader.onload = async () => {
+            const bytes = new Uint8Array(reader.result);
+            const ext = file.name.split('.').pop();
+
+            // ВЫЗЫВАЕМ НАШ RUST!
+            const result = process_replay_data(bytes, ext);
+
+            if (result.error) {
+                status.style.color = "#ff5252";
+                status.innerText = result.error;
+            } else {
+                status.style.color = "#00e676";
+                status.innerText = result.info;
+                // Здесь в будущем добавим скачивание сконвертированного файла
+            }
+        };
+        reader.readAsArrayBuffer(file);
+    };
+
+    run();
+</script>
+</body>
+</html>
