@@ -6,6 +6,4 @@ pub mod format;
 pub mod meta;
 pub mod replay;
 pub mod version;
-
-// Сюда мы добавим модуль wasm, когда будем настраивать сайт:
-// pub mod wasm;
+pub mod wasm;
