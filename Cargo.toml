@@ -1,5 +1,10 @@
 [workspace]
-members = ["crates/siliconv_cli","crates/siliconv_core", "crates/siliconv_formats", "crates/siliconv_macros"]
+members = [
+    "crates/siliconv_cli",
+    "crates/siliconv_core", 
+    "crates/siliconv_formats", 
+    "crates/siliconv_macros"
+]
 
 [workspace.package]
 version = "0.1.0"
@@ -10,6 +15,12 @@ missing_docs = "deny"
 
 [workspace.lints.clippy]
 pedantic = "deny"
+
+[profile.release]
+# Оптимизация для веба: уменьшаем размер .wasm файла
+opt-level = "z"
+lto = true
+codegen-units = 1
 
 [package]
 name = "siliconv"
