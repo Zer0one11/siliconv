@@ -1,0 +1,5 @@
+{
+  "installCommand": "curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh",
+  "buildCommand": "wasm-pack build crates/siliconv_core --target web --out-dir ../../public/pkg",
+  "outputDirectory": "public"
+}
