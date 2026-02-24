@@ -6,4 +6,3 @@ pub mod format;
 pub mod meta;
 pub mod replay;
 pub mod version;
-pub mod wasm;
