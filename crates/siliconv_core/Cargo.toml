@@ -4,12 +4,15 @@ version.workspace = true
 edition.workspace = true
 
 [lib]
-# Это критически важно для создания WebAssembly модуля
+# Позволяет компилировать в WASM
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-thiserror = "2.0.11"
-# Добавляем зависимости для веба
+thiserror = "2.0.17"
+# ВОТ ЭТА СТРОЧКА ИСПРАВИТ ОШИБКУ:
+siliconv_formats = { path = "../siliconv_formats" }
+
+# Зависимости для работы с браузером
 wasm-bindgen = "0.2.92"
 serde = { version = "1.0", features = ["derive"] }
 serde-wasm-bindgen = "0.6.5"
